@@ -522,18 +522,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sway-layout"
-version = "0.2.0"
-dependencies = [
- "async-std",
- "failure",
- "futures-core",
- "serde",
- "serde_json",
- "swayipc",
-]
-
-[[package]]
 name = "swayipc"
 version = "2.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -544,6 +532,18 @@ dependencies = [
  "futures-core",
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "swkb"
+version = "0.2.0"
+dependencies = [
+ "async-std",
+ "failure",
+ "futures-core",
+ "serde",
+ "serde_json",
+ "swayipc",
 ]
 
 [[package]]

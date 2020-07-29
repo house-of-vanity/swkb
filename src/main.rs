@@ -46,8 +46,8 @@ async fn main() -> Fallible<()> {
     let subs = [EventType::Input, EventType::Window];
     let mut events = connection.subscribe(&subs).await?;
     while let Some(event) = events.next().await {
-        match event.unwrap() {
-            Event::Input(event) => {
+        match event {
+            Ok(Event::Input(event)) => {
                 let layouts_list = event.input.xkb_layout_names;
                 let layout_name = event.input.xkb_active_layout_name.unwrap();
                 let index = layouts_list.iter().position(|r| *r == layout_name).unwrap() as i64;
@@ -56,7 +56,7 @@ async fn main() -> Fallible<()> {
                 //println!("Layout saved [{:?}] for {:?}", layout_name, current_window);
                 layouts.insert(current_window, index);
             }
-            Event::Window(event) => match event.change {
+            Ok(Event::Window(event)) => match event.change {
                 swayipc::reply::WindowChange::Focus => {
                     let layouts = layouts.lock().unwrap();
                     let mut connection = Connection::new().await?;

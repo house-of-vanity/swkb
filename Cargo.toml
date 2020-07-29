@@ -1,6 +1,6 @@
 [package]
 name = "swkb"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Alexandr Bogomyakov <abogomyakov@iponweb.net>"]
 edition = "2018"
 
