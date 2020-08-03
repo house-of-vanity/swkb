@@ -7,10 +7,14 @@ use swayipc::{Connection, EventType, Fallible};
 
 async fn get_input_id() -> Vec<String> {
     let mut connection = Connection::new().await.unwrap();
-    let inputs = connection.get_inputs().await.unwrap();
     let mut ids: Vec<String> = Vec::new();
-    for i in inputs {
-      ids.push(i.identifier);
+    match connection.get_inputs().await {
+      Ok(inputs) => {
+        for i in inputs {
+          ids.push(i.identifier);
+        }
+      }
+      _ => {}
     }
     ids
 }
@@ -49,8 +53,11 @@ async fn main() -> Fallible<()> {
         match event {
             Ok(Event::Input(event)) => {
                 let layouts_list = event.input.xkb_layout_names;
-                let layout_name = event.input.xkb_active_layout_name.unwrap();
-                let index = layouts_list.iter().position(|r| *r == layout_name).unwrap() as i64;
+                let layout_name = event.input.xkb_active_layout_name.unwrap_or("none".to_string());
+                if layout_name == "none" {
+                  continue
+                }
+                let index = layouts_list.iter().position(|r| *r == layout_name).unwrap_or(0) as i64;
                 let mut layouts = layouts.lock().unwrap();
                 let current_window = get_focus_id().await;
                 //println!("Layout saved [{:?}] for {:?}", layout_name, current_window);
