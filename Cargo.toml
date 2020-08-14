@@ -1,6 +1,6 @@
 [package]
 name = "swkb"
-version = "0.2.2"
+version = "0.2.3"
 authors = ["Alexandr Bogomyakov <abogomyakov@iponweb.net>"]
 edition = "2018"
 
@@ -21,3 +21,7 @@ unstable = []
 
 #[dependencies.swayipc]
 #features = ["async", "event_stream"]
+
+[packaging]
+depends = ["sway"]
+makedepends = ["cargo", "git"]
