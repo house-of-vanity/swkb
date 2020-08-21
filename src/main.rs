@@ -21,7 +21,12 @@ async fn get_input_id() -> Vec<String> {
 
 async fn get_focus_id() -> i64 {
     let mut connection = Connection::new().await.unwrap();
-    let tree = connection.get_tree().await.unwrap();
+    let tree = match connection.get_tree().await {
+      Ok(tree) => tree,
+      Err(_)  => {
+        return 0;
+      }
+    };
     let mut focused: i64 = 0;
     for i in tree.nodes {
         for z in i.nodes {
@@ -52,7 +57,7 @@ async fn main() -> Fallible<()> {
     while let Some(event) = events.next().await {
         match event {
             Ok(Event::Input(event)) => {
-                println!("Input: {:?}", event);
+                //println!("Input: {:?}", event);
                 let layouts_list = event.input.xkb_layout_names;
                 let layout_name = event.input.xkb_active_layout_name.unwrap_or("none".to_string());
                 if layout_name == "none" {
@@ -65,7 +70,7 @@ async fn main() -> Fallible<()> {
                 layouts.insert(current_window, index);
             }
             Ok(Event::Window(event)) => {
-              println!("Window: {:?}", event);
+              //println!("Window: {:?}", event);
               match event.change {
                 swayipc::reply::WindowChange::Focus => {
                     let layouts = layouts.lock().unwrap();
