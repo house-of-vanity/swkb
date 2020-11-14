@@ -46,7 +46,10 @@ fn main() -> Fallible<()> {
                         connection.run_command(format!(
                             "input {} xkb_switch_layout {}",
                             input,
-                            layouts.get_key_value(&event.container.id).unwrap().1
+                            layouts
+                                .get_key_value(&event.container.id)
+                                .unwrap_or((&0, &0))
+                                .1
                         ))?;
                     }
                     current_window = event.container.id;
