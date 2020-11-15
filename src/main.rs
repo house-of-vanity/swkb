@@ -16,6 +16,11 @@ fn get_input_id(c: &mut Connection) -> Vec<String> {
 }
 
 fn main() -> Fallible<()> {
+    let instance_a = single_instance::SingleInstance::new("whatever").unwrap();
+    if !instance_a.is_single() {
+        println!("only one instance of swkb at a time is allowed");
+        std::process::exit(1);
+    }
     let mut connection = Connection::new()?;
     let inputs = get_input_id(&mut connection);
     let mut layouts: HashMap<i64, i64> = HashMap::new();
