@@ -16,7 +16,9 @@ fn get_input_id(c: &mut Connection) -> Vec<String> {
 }
 
 fn main() -> Fallible<()> {
-    let instance_a = single_instance::SingleInstance::new("swkb").unwrap();
+    let xdg_dirs = xdg::BaseDirectories::new().unwrap();
+    let file = xdg_dirs.place_config_file("swkb.lock").unwrap();
+    let instance_a = single_instance::SingleInstance::new(file.to_str().unwrap()).unwrap();
     if !instance_a.is_single() {
         println!("only one instance of swkb at a time is allowed");
         std::process::exit(1);
