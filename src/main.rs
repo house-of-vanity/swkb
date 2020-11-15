@@ -16,7 +16,7 @@ fn get_input_id(c: &mut Connection) -> Vec<String> {
 }
 
 fn main() -> Fallible<()> {
-    let instance_a = single_instance::SingleInstance::new("whatever").unwrap();
+    let instance_a = single_instance::SingleInstance::new("swkb").unwrap();
     if !instance_a.is_single() {
         println!("only one instance of swkb at a time is allowed");
         std::process::exit(1);
